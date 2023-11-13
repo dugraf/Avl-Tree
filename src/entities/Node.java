@@ -2,8 +2,7 @@ package entities;
 
 public class Node<E> {
 
-    private Node<E> esquerda;
-    private Node<E> direita;
+    private Node<E> esquerda, direita;
     private Dado<E> dado;
     private int altura;
 
