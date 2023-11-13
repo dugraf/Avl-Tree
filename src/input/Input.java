@@ -16,4 +16,14 @@ public class Input
     {
         return LocalDate.parse(sc.next());
     }
+
+    public static int inputInt(String texto) {
+        try {
+            System.out.println(texto);
+            return Integer.parseInt(sc.next());
+        } catch (NumberFormatException ex) {
+            System.out.println("Digite um número válido: " + ex);
+            return inputInt(texto);
+        }
+    }
 }

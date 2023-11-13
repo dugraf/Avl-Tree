@@ -28,7 +28,7 @@ public class LeituraArquivo
         }
         catch (IOException e)
         {
-            System.out.println("Error " +e.getMessage()); //EXCECAO
+            System.out.println("Error " +e.getMessage());
         }
         sc.close();
         return pessoas;
