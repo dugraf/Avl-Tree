@@ -5,10 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 public class Pessoa
 {
-    private final String cpf, nome, rg, cidade;
+    private final long cpf;
+    private final String nome, rg, cidade;
     private final LocalDate dataNascimento;
 
-    public Pessoa(String cpf, String rg, String nome, LocalDate dataNascimento, String cidade) {
+    public Pessoa(long cpf, String rg, String nome, LocalDate dataNascimento, String cidade) {
         this.cpf = cpf;
         this.nome = nome;
         this.rg = rg;
@@ -16,7 +17,7 @@ public class Pessoa
         this.dataNascimento = dataNascimento;
     }
 
-    public String getCpf() {
+    public long getCpf() {
         return cpf;
     }
     public String getNome() {
