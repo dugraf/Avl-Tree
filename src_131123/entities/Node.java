@@ -4,15 +4,10 @@ public class Node<E> {
 
     private Node<E> esquerda, direita;
     private Dado<E> dado;
-    private int altura, raiz;
+    private int altura;
 
-    public Node(Dado<E> dado, int raiz) {
+    public Node(Dado<E> dado) {
         this.dado = dado;
-        this.raiz = raiz;
-    }
-
-    public Node(int raiz) {
-        this.raiz = raiz;
     }
 
     public Node<E> getEsquerda() {
@@ -41,13 +36,5 @@ public class Node<E> {
 
     public void setAltura(int altura) {
         this.altura = altura;
-    }
-
-    public int getRaiz() {
-        return raiz;
-    }
-
-    public void setRaiz(int raiz) {
-        this.raiz = raiz;
     }
 }

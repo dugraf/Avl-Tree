@@ -1,15 +1,24 @@
+import java.io.File;
 import java.util.List;
+
 import entities.Pessoa;
 import input.Input;
+import utils.LeituraArquivo;
 
 public class Menu
 {
-    public static void menuPrincipal(List<Pessoa> pessoas)
+    public static void menuPrincipal()
     {
+        menuArquivo();
         exibirMenu();
         menuOpcoes();
     }
 
+    public static void menuArquivo()
+    {
+        File file = new File(Input.inputString("DIGITE O CAMINHO DO ARQUIVO!\nEXEMPLO: C:\\temp\\arquivo.csv"));
+        List<Pessoa> pessoas = LeituraArquivo.leituraArquivo(file);
+    }
     
     private static void  menuOpcoes()
     {
