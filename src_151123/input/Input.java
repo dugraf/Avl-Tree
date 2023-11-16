@@ -1,4 +1,5 @@
 package input;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Input
@@ -11,6 +12,11 @@ public class Input
         return sc.next();
     }
 
+    public static LocalDate inputDate(String texto)
+    {
+        return LocalDate.parse(sc.next());
+    }
+
     public static int inputInt(String texto) {
         try {
             System.out.println(texto);
@@ -18,16 +24,6 @@ public class Input
         } catch (NumberFormatException ex) {
             System.out.println("Digite um número válido: " + ex);
             return inputInt(texto);
-        }
-    }
-
-    public static long inputLong(String texto) {
-        try {
-            System.out.println(texto);
-            return Long.parseLong(sc.next());
-        } catch (NumberFormatException ex) {
-            System.out.println("Digite um número válido: " + ex);
-            return inputLong(texto);
         }
     }
 }
