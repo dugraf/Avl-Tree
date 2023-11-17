@@ -5,17 +5,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class AVLTree<E> {
+public class AvlTree<E>
+{
 
     private Nodo<E> raiz;
     private int numElementos;
 
-    public AVLTree()
+    public AvlTree()
     {
         this.numElementos = 0;
     }
 
-    private boolean buscar(Nodo<E> atual, Dado<E> valor) {
+    private boolean buscar(Nodo<E> atual, Dado<E> valor)
+    {
         if(Objects.isNull(atual))
             return false;
 
@@ -28,7 +30,8 @@ public class AVLTree<E> {
         return !(valor.getDado() instanceof String) && !(valor.getDado() instanceof LocalDate);
     }
 
-    public void inserir(Dado<E> valor) {
+    public void inserir(Dado<E> valor)
+    {
         if(!buscar(raiz, valor))
         {
             raiz = inserir(raiz, valor);
@@ -55,10 +58,12 @@ public class AVLTree<E> {
         return balancear(atual);
     }
 
-    private Nodo<E> balancear(Nodo<E> atual) {
+    private Nodo<E> balancear(Nodo<E> atual)
+    {
         atualizar(atual);
 
-        if(fatorBalanceamento(atual) > 1) {
+        if(fatorBalanceamento(atual) > 1)
+        {
             if (!rotacaoSimplesDireita(atual))
                 atual.setEsquerda(rotacaoEsquerda(atual.getEsquerda()));
             atual = rotacaoDireita(atual);
@@ -72,89 +77,90 @@ public class AVLTree<E> {
         return atual;
     }
 
-    private Nodo<E> rotacaoDireita(Nodo<E> atual) {
+    private Nodo<E> rotacaoDireita(Nodo<E> atual)
+    {
         Nodo<E> pai = atual.getEsquerda();
-
         atual.setEsquerda(pai.getDireita());
         pai.setDireita(atual);
-
         atualizar(atual);
         atualizar(pai);
-
         return pai;
     }
 
-    private Nodo<E> rotacaoEsquerda(Nodo<E> atual) {
+    private Nodo<E> rotacaoEsquerda(Nodo<E> atual)
+    {
         Nodo<E> pai = atual.getDireita();
-
         atual.setDireita(pai.getEsquerda());
         pai.setEsquerda(atual);
-
         atualizar(atual);
         atualizar(pai);
-
         return pai;
     }
 
-    private void atualizar(Nodo<E> atual) {
+    private boolean rotacaoSimplesDireita(Nodo<E> atual)
+    {
+        return altura(atual.getEsquerda().getEsquerda()) > altura(atual.getEsquerda().getDireita());
+    }
+
+    private boolean rotacaoSimplesEsquerda(Nodo<E> atual)
+    {
+        return altura(atual.getDireita().getDireita()) > altura(atual.getDireita().getEsquerda());
+    }
+
+    private void atualizar(Nodo<E> atual)
+    {
         int alturaEsquerda = altura(atual.getEsquerda());
         int alturaDireita = altura(atual.getDireita());
-
         atual.setAltura(1 + Math.max(alturaEsquerda, alturaDireita));
     }
 
-    private int fatorBalanceamento(Nodo<E> atual) {
+    private int fatorBalanceamento(Nodo<E> atual)
+    {
         if(Objects.isNull(atual))
             return 0;
         else 
             return altura(atual.getEsquerda()) - altura(atual.getDireita());
     }
 
-    private int altura(Nodo<E> atual) {
+    private int altura(Nodo<E> atual)
+    {
         if(Objects.isNull(atual))
             return -1;
         else
             return atual.getAltura();
     }
 
-    private boolean rotacaoSimplesDireita(Nodo<E> atual) {
-        return altura(atual.getEsquerda().getEsquerda()) > altura(atual.getEsquerda().getDireita());
-    }
-
-    private boolean rotacaoSimplesEsquerda(Nodo<E> atual) {
-        return altura(atual.getDireita().getDireita()) > altura(atual.getDireita().getEsquerda());
-    }
-
-    public Nodo<E> getRaiz() {
+    public Nodo<E> getRaiz()
+    {
         return raiz;
     }
 
-    public List<Integer> indicePorCpf(Nodo<Long> atual, long valor) {
+    public List<Integer> indicePorLong(Nodo<Long> atual, long valor)
+    {
         if(Objects.isNull(atual))
             return Collections.emptyList();
 
-
         if(valor < (atual.getDado().getDado()))
-            return indicePorCpf(atual.getDireita(), valor);
-
+            return indicePorLong(atual.getDireita(), valor);
 
         if(valor > (atual.getDado().getDado()))
-            return indicePorCpf(atual.getEsquerda(), valor);
+            return indicePorLong(atual.getEsquerda(), valor);
 
         return atual.getDado().getListaDadosIguais();
     }
 
-    public List<Integer> indicePorData(Nodo<LocalDate> atual, LocalDate dataInicio, LocalDate dataFim, List<Integer> indices) {
+    public List<Integer> indicePorData(Nodo<LocalDate> atual, LocalDate dataInicio, LocalDate dataFim, List<Integer> indices)
+    {
         if(Objects.isNull(atual))
             return Collections.emptyList();
 
         LocalDate data = atual.getDado().getDado();
 
         if(data.isAfter(dataInicio))
-            indicePorData(atual.getEsquerda(), dataInicio, dataFim, indices);
+            indicePorData(atual.getDireita(), dataInicio, dataFim, indices);
 
         if(data.isBefore(dataFim))
-            indicePorData(atual.getDireita(), dataInicio, dataFim, indices);
+            indicePorData(atual.getEsquerda(), dataInicio, dataFim, indices);
 
         if(data.isAfter(dataInicio) && data.isBefore(dataFim))
             indices.addAll(atual.getDado().getListaDadosIguais());
@@ -162,18 +168,18 @@ public class AVLTree<E> {
         return indices;
     }
 
-    public List<Integer> indicesComecandoPor(Nodo<String> atual, String nameFragment, List<Integer> indices) {
+    public List<Integer> indicesComecandoPor(Nodo<String> atual, String particao, List<Integer> indices)
+    {
         if(Objects.isNull(atual))
             return Collections.emptyList();
 
-        if(nameFragment.toUpperCase().compareTo(String.valueOf(atual.getDado().getDado()).toUpperCase().substring(0, nameFragment.length())) <= 0)
-            indicesComecandoPor(atual.getDireita(), nameFragment, indices);
+        if(particao.toUpperCase().compareTo(String.valueOf(atual.getDado().getDado()).toUpperCase().substring(0, particao.length())) <= 0)
+            indicesComecandoPor(atual.getDireita(), particao, indices);
 
-        if(nameFragment.toUpperCase().compareTo(String.valueOf(atual.getDado().getDado()).toUpperCase().substring(0, nameFragment.length())) >= 0)
-            indicesComecandoPor(atual.getEsquerda(), nameFragment, indices);
+        if(particao.toUpperCase().compareTo(String.valueOf(atual.getDado().getDado()).toUpperCase().substring(0, particao.length())) >= 0)
+            indicesComecandoPor(atual.getEsquerda(), particao, indices);
 
-
-        if(String.valueOf(atual.getDado().getDado()).toUpperCase().startsWith(nameFragment.toUpperCase()))
+        if(String.valueOf(atual.getDado().getDado()).toUpperCase().startsWith(particao.toUpperCase()))
             indices.addAll(atual.getDado().getListaDadosIguais());
 
         return indices;

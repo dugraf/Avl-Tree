@@ -22,7 +22,7 @@ public class LeituraArquivo
                 String[] campos = sc.nextLine().split(";");
                 DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate data = LocalDate.parse(campos[3], fmt);
-                pessoas.add(new Pessoa(Long.parseLong(campos[0]), campos[1], campos[2], data, campos[4]));
+                pessoas.add(new Pessoa(Long.parseLong(campos[0]), Long.parseLong(campos[1]), campos[2], data, campos[4]));
             }
         }
         catch (IOException e)
